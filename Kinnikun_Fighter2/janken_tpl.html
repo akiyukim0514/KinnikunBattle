@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<script src="js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="css/sample.css">
+<title>じゃんけん</title>
+</head>
+<body>
+
+<header>
+  <h1>じゃんけん</h1>
+</header>
+
+<main>
+  <!-- 自分の出す手の選択 -->
+  </div>
+  <ul>
+    <li class="PC_choice" id="your_gu_btn">グー</li>
+    <li class="PC_choice" id="your_cho_btn">チョキ</li>
+    <li class="PC_choice" id="your_par_btn">パー</li>
+  </ul>
+  <!-- コンピューターの選択 -->
+  <div>コンピュータの出した手は？「<span id="pc_hands">なに？</span>」</div>
+  <div id="judgment">結果は・・・
+  </div>
+  <div id="result"></div>
+  <div class="return"></div>
+  <a href="./kinnikun_battle.html">⇨Hard modeをプレイする</a>
+</main>
+
+<footer></footer>
+<script>
+//じゃんけん用のSCRIPTを書いてください
+
+//コンピューターが出すランダムじゃんけんを定義
+//mathランダムで出た関数と紐付けてcssの色を変える。あるいは画像はhtmlを変えたらいけそう
+//ユーザーがクリックして選択した場合に、結果をランダムで表示させる。
+
+// グーの勝敗
+// oneクリックで一回だけボタンが推せる
+// 一回戦
+$('#your_gu_btn').one('click', function(){
+    $('#your_gu_btn').css('background-color','#0066CC')
+    $('#your_gu_btn').css('color','#fff')
+    const pcNum = Math.ceil(Math.random() * 3);
+    console.log(pcNum);
+
+    if(pcNum == 1){
+      $('#pc_hands').text('グー！');
+      $('#result').text('あいこ！');
+    }else if (pcNum == 2){
+      $('#pc_hands').text('チョキ！');
+      $('#result').text('勝ち！');
+    }if (pcNum == 3){
+      $('#pc_hands').text('パー！');
+      $('#result').text('負け！');
+    }
+
+    //他を押させないためにoffメソッド；https://www.sejuku.net/blog/61686
+    $('#your_cho_btn').off();
+    $('#your_par_btn').off();
+    // 見えてないものを表示させる
+    $('.return').text('もう一度');
+    $('#result').css('display','block');
+    $('.return').css('display','block');
+    
+});
+
+//チョキの勝敗
+$('#your_cho_btn').one('click', function(){
+    $('#your_cho_btn').css('background-color','#0066CC');
+    $('#your_cho_btn').css('color','#fff');
+    const pcNum = Math.ceil(Math.random() * 3);
+    console.log(pcNum);
+
+    if(pcNum == 1){
+      $('#pc_hands').text('グー！');
+      $('#result').text('負け！');
+    }else if (pcNum == 2){
+      $('#pc_hands').text('チョキ！');
+      $('#result').text('あいこ！');
+    }if (pcNum == 3){
+      $('#pc_hands').text('パー！');
+      $('#result').text('勝ち！');
+    }
+    $('#your_gu_btn').off();
+    $('#your_par_btn').off();
+    $('.return').text('もう一度');
+    $('#result').css('display','block');
+    $('.return').css('display','block');
+});
+
+//パーの勝敗
+$('#your_par_btn').one('click', function(){
+    $('#your_par_btn').css('background-color','#0066CC');
+    $('#your_par_btn').css('color','#fff');
+    const pcNum = Math.ceil(Math.random() * 3);
+    console.log(pcNum);
+
+    if(pcNum == 1){
+      $('#pc_hands').text('グー！');
+      $('#result').text('勝ち！');
+    }else if (pcNum == 2){
+      $('#pc_hands').text('チョキ！');
+      $('#result').text('負け！');
+    }if (pcNum == 3){
+      $('#pc_hands').text('パー！');
+      $('#result').text('あいこ！');
+    }
+    $('#your_cho_btn').off();
+    $('#your_gu_btn').off();
+    $('.return').text('もう一度');
+    $('#result').css('display','block');
+    $('.return').css('display','block');
+});
+
+// リセットボタン設置。クリックで書く項目のcssを元通りにする
+// 参考：https://developer.mozilla.org/ja/docs/Web/API/Location/reload
+$('.return').on('click', function(){
+    // $('.PC_choice').css('background-color','');
+    // $('.PC_choice').css('color','');
+    // $('#result').css('display','none');
+    // $('.return').css('display','none');
+    // 以下でクリアできたので、上記コードは不要・・・
+   location.reload();
+    
+});
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+
+</script>
+</body>
+</html>

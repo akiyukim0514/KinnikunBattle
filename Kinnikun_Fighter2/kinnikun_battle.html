@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<script src="js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="./css/kinniku.css">
+<title>じゃんけん Hard MODE</title>
+</head>
+<body>
+    <main>
+        <!-- ゲームの説明 -->
+        <div class="header">
+            <p class="header__title">熱血！きんに君ファイターズ２</p>
+        </div>   
+        <div class="header__bottom">
+            <div id="yourhp">100</div>
+            <div class="vs">VS</div>
+            <div id="pchp">100</div>
+        </div>
+            <div class="game__wrapper">
+                <div class="game__intro">
+
+                    <!-- 画像を表示させて下に会話を入れる。fadeinoutを使って画面を切り替える -->
+                    <div class="enemy.wrapper">
+                        <img class="kinniku__img1" src="./img/kinnikun_top.png" alt="">                    
+                        <img class="kinniku__img2" src="./img/kinnikun_top.png" alt="">
+                    <div class="game__detail">
+                        <p>きんに君「パワーーーー！！」</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        <div>
+          <input class="PC_choice" id="your_gu_btn" type="button" value="グー">
+          <input class="PC_choice" id="your_cho_btn" type="button" value="チョキ">
+          <input class="PC_choice" id="your_par_btn" type="button" value="パー">
+        </div>
+        <!-- コンピューターの選択 -->
+        <div>コンピュータの出した手は？「<span id="pc_hands">なに？</span>」</div>
+        <div id="judgment">結果は・・・
+        </div>
+        <div id="result"></div>
+        <div id="next_mutch"></div>
+        <input type="button" value="次の対戦" id="return" >
+    </main>
+    <footer></footer>
+    <script>
+      //ここからSCRIPT
+      //コンピューターが出すランダムじゃんけんを定義
+//mathランダムで出た関数と紐付けてcssの色を変える。あるいは画像はhtmlを変えたらいけそう
+//ユーザーがクリックして選択した場合に、結果をランダムで表示させる。
+// プレイヤーときんに君のHPをgetelemenbyidを使って取得。それを変数としてパターンごとに計算
+let myHp = document.getElementById('yourhp').innerHTML;
+console.log(myHp);
+let enemyHp = document.getElementById('pchp').innerHTML;
+console.log(enemyHp);
+const damage = 20;
+const recover = 10;
+// グーの勝敗
+// oneクリックで一回だけボタンが推せる
+$('#your_gu_btn').on('click', function(){
+    $('#your_cho_btn').css('background-color','gray')
+    $('#your_cho_btn').css('color','white')
+    $('#your_par_btn').css('background-color','gray')
+    $('#your_par_btn').css('color','white')
+    const pcNum = Math.ceil(Math.random() * 3);
+    console.log(pcNum);
+
+    if(pcNum == 1){
+      $('#pc_hands').text('グー！');
+      $('#result').text('あいこ！');
+      rstHp = Number(enemyHp) + Number(recover);
+      console.log(rstHp);
+      enemyHp = rstHp;
+      $('#pchp').html(enemyHp);
+      
+    }else if (pcNum == 2){
+      $('#pc_hands').text('チョキ！');
+      $('#result').text('勝ち！');
+      rstHp = Number(enemyHp) - Number(damage);
+      console.log(rstHp);
+      enemyHp = rstHp;
+      $('#pchp').html(enemyHp);
+
+    }if (pcNum == 3){
+      $('#pc_hands').text('パー！');
+      $('#result').text('負け！');
+      rstHp = Number(myHp) - Number(damage);
+      console.log(rstHp);
+      myHp = rstHp;
+      $('#yourhp').html(myHp);
+    }
+
+    // 一回何処かをクリックするとそのほかを非活性にする。最初はoneメソッドを使ったが、次の対戦ボタンで再度活性化をするためにこちらの方法を利用
+    // 参考：https://itsakura.com/js-disabled
+    document.getElementById("your_gu_btn").setAttribute("disabled", true);
+    document.getElementById("your_cho_btn").setAttribute("disabled", true);
+    document.getElementById("your_par_btn").setAttribute("disabled", true);
+
+    //他を押させないためにoffメソッド；https://www.sejuku.net/blog/61686
+    // $('#your_cho_btn').off();
+    // $('#your_par_btn').off();
+    
+    // 見えてないものを表示させる
+    $('#result').css('display','block');
+    $('#return').css('display','block');
+    
+
+});
+
+//チョキの勝敗
+$('#your_cho_btn').on('click', function(){
+    $('#your_gu_btn').css('background-color','gray')
+    $('#your_gu_btn').css('color','white')
+    $('#your_par_btn').css('background-color','gray')
+    $('#your_par_btn').css('color','white')
+    const pcNum = Math.ceil(Math.random() * 3);
+    console.log(pcNum);
+
+    if(pcNum == 1){
+      $('#pc_hands').text('グー！');
+      $('#result').text('負け！');
+      rstHp = Number(myHp) - Number(damage);
+      console.log(rstHp);
+      myHp = rstHp
+      $('#yourhp').html(myHp);
+    }else if (pcNum == 2){
+      $('#pc_hands').text('チョキ！');
+      $('#result').text('あいこ！');
+      rstHp = Number(enemyHp) + Number(recover);
+      console.log(rstHp);
+      enemyHp = rstHp
+      $('#pchp').html(enemyHp);
+    }if (pcNum == 3){
+      $('#pc_hands').text('パー！');
+      $('#result').text('勝ち！');
+      rstHp = Number(enemyHp) - Number(damage);
+      console.log(rstHp);
+      enemyHp = rstHp
+      $('#pchp').html(enemyHp);
+    }
+    // $('#your_gu_btn').off();
+    // $('#your_par_btn').off();
+
+    document.getElementById("your_gu_btn").setAttribute("disabled", true);
+    document.getElementById("your_cho_btn").setAttribute("disabled", true);
+    document.getElementById("your_par_btn").setAttribute("disabled", true);
+
+    $('#result').css('display','block');
+    $('#return').css('display','block');
+});
+
+//パーの勝敗
+$('#your_par_btn').on('click', function(){
+    $('#your_cho_btn').css('background-color','gray')
+    $('#your_cho_btn').css('color','white')
+    $('#your_gu_btn').css('background-color','gray')
+    $('#your_gu_btn').css('color','white')
+    const pcNum = Math.ceil(Math.random() * 3);
+    console.log(pcNum);
+
+
+    if(pcNum == 1){
+      $('#pc_hands').text('グー！');
+      $('#result').text('勝ち！');
+      rstHp = Number(enemyHp) - Number(damage);
+      console.log(rstHp);
+      enemyHp = rstHp
+      $('#pchp').html(enemyHp);
+    }else if (pcNum == 2){
+      $('#pc_hands').text('チョキ！');
+      $('#result').text('負け！');
+      rstHp = Number(myHp) - Number(damage);
+      console.log(rstHp);
+      myHp = rstHp
+      $('#yourhp').html(myHp);
+    }if (pcNum == 3){
+      $('#pc_hands').text('パー！');
+      $('#result').text('あいこ！');
+      rstHp = Number(enemyHp) + Number(recover);
+      console.log(rstHp);
+      enemyHp = rstHp
+      $('#pchp').html(enemyHp);
+    }
+    // $('#your_cho_btn').off();
+    // $('#your_gu_btn').off();
+    document.getElementById("your_gu_btn").setAttribute("disabled", true);
+    document.getElementById("your_cho_btn").setAttribute("disabled", true);
+    document.getElementById("your_par_btn").setAttribute("disabled", true);
+
+    $('#result').css('display','block');
+    $('#return').css('display','block');
+});
+
+$('#return').on('click', function(){
+    if(enemyHp <= 50) {
+    $('.kinniku__img2').slideDown();
+    }
+});
+
+
+// リセットボタン設置。クリックで書く項目のcssを元通りにする
+// 参考：https://developer.mozilla.org/ja/docs/Web/API/Location/reload
+$('#return').on('click', function(){
+    // $('.PC_choice').css('background-color','');
+    // $('.PC_choice').css('color','');
+    // $('#result').css('display','none');
+    // $('.return').css('display','none');
+    // 以下でクリアできたので、上記コードは不要・・・
+//    location.reload();
+// 各項目は継続で次の対戦に行きたいので以下で設定
+// 本当は全ての条件を数字だけキープして、初期状態にしたかったが・・・
+    document.getElementById("your_gu_btn").removeAttribute("disabled");
+    document.getElementById("your_cho_btn").removeAttribute("disabled");
+    document.getElementById("your_par_btn").removeAttribute("disabled");
+    $('.PC_choice').css('color','white');
+    $('#your_gu_btn').css('background-color','red');
+    $('#your_cho_btn').css('background-color','green');
+    $('#your_par_btn').css('background-color','blue');
+
+});
+
+    </script>
+
+
+
+
+</body>
+</html>

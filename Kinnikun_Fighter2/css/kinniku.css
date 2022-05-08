@@ -1,0 +1,68 @@
+main {
+    width: 1200px;
+    margin: 0 auto;
+}
+.header__title {
+    margin: 0 auto;
+    padding: 8px 0;
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: white;
+    
+}
+
+.header {
+    background-color: rgb(0, 99, 247);
+
+}
+
+.header__bottom {
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(0, 217, 255);
+    line-height: 60px;
+}
+
+#pchp, #yourhp {
+    font-size: 36px;
+    font-weight: 900;
+}
+
+.vs {
+    font-size: 28px;
+    font-weight: 900;
+}
+
+.game__intro {
+    background-image: url(../img/battlebackground.png);
+    background-size: cover;
+}
+
+
+#return {
+    display: none;
+}
+
+.PC_choice {
+    color: white;
+}
+
+#your_gu_btn {
+    background-color: red;
+}
+
+#your_cho_btn {
+    background-color: green;
+}
+
+#your_par_btn {
+    background-color: blue;
+}
+
+.kinniku__img2 {
+    display: none;
+}
+
