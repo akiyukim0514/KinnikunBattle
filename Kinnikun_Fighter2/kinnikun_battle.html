@@ -9,6 +9,21 @@
 </head>
 <body>
     <main>
+        <div class="intro">
+          <p>熱血！きんに君ファイターズ２</p>
+          <input type="button" value="はじめる" id="introstart" >
+        </div>
+        <div class="detail">
+          <p class="detail__title">ルール説明</p>
+          <div class="detail__contents">
+          <p class="detail__content">勝ちの場合:きんに君のHPが<span>20</span>減るよ</p>
+          <p class="detail__content">負けの場合:あなたのHPが<span>20</span>減るよ</p>
+          <p class="detail__content">あいこの場合:きんに君のHPが<span>10</span>増えるよ</p>
+          <p class="detail__content">（きんに君一人当たりの計算だよ）</p>
+          <p class="detail__content yarunokai">さあ、やるのかい、やらないのかい、どっちなんだい？</p>
+          <input type="button" value="やーる！！" id="detailstart" >
+          </div>
+        </div>
         <!-- ゲームの説明 -->
         <div class="header">
             <p class="header__title">熱血！きんに君ファイターズ２</p>
@@ -18,31 +33,35 @@
             <div class="vs">VS</div>
             <div id="pchp">100</div>
         </div>
-            <div class="game__wrapper">
-                <div class="game__intro">
-
-                    <!-- 画像を表示させて下に会話を入れる。fadeinoutを使って画面を切り替える -->
-                    <div class="enemy.wrapper">
-                        <img class="kinniku__img1" src="./img/kinnikun_top.png" alt="">                    
-                        <img class="kinniku__img2" src="./img/kinnikun_top.png" alt="">
-                    <div class="game__detail">
-                        <p>きんに君「パワーーーー！！」</p>
+        <div class="game__wrapper">
+            <div class="game__intro">
+                <input class="PC_choice" id="your_gu_btn" type="button" value="グー">
+                <input class="PC_choice" id="your_cho_btn" type="button" value="チョキ">
+                <input class="PC_choice" id="your_par_btn" type="button" value="パー">
+                <div>
+                  <div class="comment__choice">　さあ、何を選ぶ？
+                    <div class="comment__hidden">
+                      <div id="result"></div>
+                      <!-- <div id="next_mutch"></div> -->
+                      <input type="button" value="次の対戦" id="return" >
                     </div>
-                    </div>
+                  </div>
                 </div>
             </div>
-        <div>
-          <input class="PC_choice" id="your_gu_btn" type="button" value="グー">
-          <input class="PC_choice" id="your_cho_btn" type="button" value="チョキ">
-          <input class="PC_choice" id="your_par_btn" type="button" value="パー">
+            <!-- 画像を表示させて下に会話を入れる。fadeinoutを使って画面を切り替える -->
+            <div class="enemy__wrapper">
+              <div class="enemy__comments">
+                <div class="enemy__comment">　　うーん...何を出そうかな？</div>
+                <div id="pc_hands"></div>
+              </div>
+               <div class="enemy__imgs">
+                <img class="kinniku__img2" src="./img/kinnnikunfinal.png" alt="">
+                <img class="kinniku__img1" src="./img/kinnnikunfinal.png"alt="">                    
+              </div>
+            </div>
+            <div class="win">You WIN!!</div>
+            <div class="lose">You LOSE!!</div>
         </div>
-        <!-- コンピューターの選択 -->
-        <div>コンピュータの出した手は？「<span id="pc_hands">なに？</span>」</div>
-        <div id="judgment">結果は・・・
-        </div>
-        <div id="result"></div>
-        <div id="next_mutch"></div>
-        <input type="button" value="次の対戦" id="return" >
     </main>
     <footer></footer>
     <script>
@@ -55,21 +74,23 @@ let myHp = document.getElementById('yourhp').innerHTML;
 console.log(myHp);
 let enemyHp = document.getElementById('pchp').innerHTML;
 console.log(enemyHp);
-const damage = 20;
-const recover = 10;
+let damage = 20;
+let recover = 10;
 // グーの勝敗
 // oneクリックで一回だけボタンが推せる
 $('#your_gu_btn').on('click', function(){
-    $('#your_cho_btn').css('background-color','gray')
-    $('#your_cho_btn').css('color','white')
-    $('#your_par_btn').css('background-color','gray')
-    $('#your_par_btn').css('color','white')
+    $('#your_cho_btn').css('background-color','gray');
+    $('#your_cho_btn').css('color','white');
+    $('#your_par_btn').css('background-color','gray');
+    $('#your_par_btn').css('color','white');
+    $('#pc_hands').css('display','block');
     const pcNum = Math.ceil(Math.random() * 3);
     console.log(pcNum);
 
     if(pcNum == 1){
       $('#pc_hands').text('グー！');
       $('#result').text('あいこ！');
+      $('#result').css('color','black');
       rstHp = Number(enemyHp) + Number(recover);
       console.log(rstHp);
       enemyHp = rstHp;
@@ -78,6 +99,7 @@ $('#your_gu_btn').on('click', function(){
     }else if (pcNum == 2){
       $('#pc_hands').text('チョキ！');
       $('#result').text('勝ち！');
+      $('#result').css('color','red');
       rstHp = Number(enemyHp) - Number(damage);
       console.log(rstHp);
       enemyHp = rstHp;
@@ -86,11 +108,12 @@ $('#your_gu_btn').on('click', function(){
     }if (pcNum == 3){
       $('#pc_hands').text('パー！');
       $('#result').text('負け！');
+      $('#result').css('color','blue');
       rstHp = Number(myHp) - Number(damage);
       console.log(rstHp);
       myHp = rstHp;
       $('#yourhp').html(myHp);
-    }
+    };
 
     // 一回何処かをクリックするとそのほかを非活性にする。最初はoneメソッドを使ったが、次の対戦ボタンで再度活性化をするためにこちらの方法を利用
     // 参考：https://itsakura.com/js-disabled
@@ -105,41 +128,52 @@ $('#your_gu_btn').on('click', function(){
     // 見えてないものを表示させる
     $('#result').css('display','block');
     $('#return').css('display','block');
-    
+
+    if(enemyHp <= 0) {
+      $('.win').show();
+    };
+    if(myHp <= 0) {
+      $('.lose').show();
+    };
+        
 
 });
 
 //チョキの勝敗
 $('#your_cho_btn').on('click', function(){
-    $('#your_gu_btn').css('background-color','gray')
-    $('#your_gu_btn').css('color','white')
-    $('#your_par_btn').css('background-color','gray')
-    $('#your_par_btn').css('color','white')
+    $('#your_gu_btn').css('background-color','gray');
+    $('#your_gu_btn').css('color','white');
+    $('#your_par_btn').css('background-color','gray');
+    $('#your_par_btn').css('color','white');
+    $('#pc_hands').css('display','block');
     const pcNum = Math.ceil(Math.random() * 3);
     console.log(pcNum);
 
     if(pcNum == 1){
       $('#pc_hands').text('グー！');
       $('#result').text('負け！');
+      $('#result').css('color','blue');
       rstHp = Number(myHp) - Number(damage);
       console.log(rstHp);
-      myHp = rstHp
+      myHp = rstHp;
       $('#yourhp').html(myHp);
     }else if (pcNum == 2){
       $('#pc_hands').text('チョキ！');
       $('#result').text('あいこ！');
+      $('#result').css('color','black');
       rstHp = Number(enemyHp) + Number(recover);
       console.log(rstHp);
-      enemyHp = rstHp
+      enemyHp = rstHp;
       $('#pchp').html(enemyHp);
     }if (pcNum == 3){
       $('#pc_hands').text('パー！');
       $('#result').text('勝ち！');
+      $('#result').css('color','red');
       rstHp = Number(enemyHp) - Number(damage);
       console.log(rstHp);
-      enemyHp = rstHp
+      enemyHp = rstHp;
       $('#pchp').html(enemyHp);
-    }
+    };
     // $('#your_gu_btn').off();
     // $('#your_par_btn').off();
 
@@ -149,14 +183,21 @@ $('#your_cho_btn').on('click', function(){
 
     $('#result').css('display','block');
     $('#return').css('display','block');
+    if(enemyHp <= 0) {
+      $('.win').show();
+    };
+    if(myHp <= 0) {
+      $('.lose').show();
+    };
 });
 
 //パーの勝敗
 $('#your_par_btn').on('click', function(){
-    $('#your_cho_btn').css('background-color','gray')
-    $('#your_cho_btn').css('color','white')
-    $('#your_gu_btn').css('background-color','gray')
-    $('#your_gu_btn').css('color','white')
+    $('#your_cho_btn').css('background-color','gray');
+    $('#your_cho_btn').css('color','white');
+    $('#your_gu_btn').css('background-color','gray');
+    $('#your_gu_btn').css('color','white');
+    $('#pc_hands').css('display','block');
     const pcNum = Math.ceil(Math.random() * 3);
     console.log(pcNum);
 
@@ -164,25 +205,28 @@ $('#your_par_btn').on('click', function(){
     if(pcNum == 1){
       $('#pc_hands').text('グー！');
       $('#result').text('勝ち！');
+      $('#result').css('color','red');
       rstHp = Number(enemyHp) - Number(damage);
       console.log(rstHp);
-      enemyHp = rstHp
+      enemyHp = rstHp;
       $('#pchp').html(enemyHp);
     }else if (pcNum == 2){
       $('#pc_hands').text('チョキ！');
       $('#result').text('負け！');
+      $('#result').css('color','blue');
       rstHp = Number(myHp) - Number(damage);
       console.log(rstHp);
-      myHp = rstHp
+      myHp = rstHp;
       $('#yourhp').html(myHp);
     }if (pcNum == 3){
       $('#pc_hands').text('パー！');
       $('#result').text('あいこ！');
+      $('#result').css('color','black');
       rstHp = Number(enemyHp) + Number(recover);
       console.log(rstHp);
-      enemyHp = rstHp
+      enemyHp = rstHp;
       $('#pchp').html(enemyHp);
-    }
+    };
     // $('#your_cho_btn').off();
     // $('#your_gu_btn').off();
     document.getElementById("your_gu_btn").setAttribute("disabled", true);
@@ -191,13 +235,41 @@ $('#your_par_btn').on('click', function(){
 
     $('#result').css('display','block');
     $('#return').css('display','block');
+    if(enemyHp <= 0) {
+    $('.win').show();
+    };
+    if(myHp <= 0) {
+    $('.lose').show();
+    };
 });
 
 $('#return').on('click', function(){
     if(enemyHp <= 50) {
+    $('.enemy__comment').text('　　　こうなったら...パワー！！');
+    // 本当はinputボタンで表示を入れたかったが、なぜかdisplay blockで表示されず
     $('.kinniku__img2').slideDown();
-    }
+    damage = 40;
+    };
 });
+
+// if(enemyHp <= 0) {
+//   $('.win').show();
+// };
+// if(myHp <= 0) {
+//   $('.lose').show();
+// };
+
+$('#introstart').on('click', function(){
+  $('.intro').fadeOut();
+})
+
+$('#detailstart').on('click', function(){
+  $('.detail').fadeOut(2000);
+})
+
+
+
+
 
 
 // リセットボタン設置。クリックで書く項目のcssを元通りにする
@@ -218,6 +290,9 @@ $('#return').on('click', function(){
     $('#your_gu_btn').css('background-color','red');
     $('#your_cho_btn').css('background-color','green');
     $('#your_par_btn').css('background-color','blue');
+    $('#return').css('display','none');
+    $('#result').css('display','none');
+    $('#pc_hands').css('display','none');
 
 });
 
